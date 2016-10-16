@@ -12,6 +12,17 @@ import java.util.logging.Logger;
  * Write web test for password recovery on sportsdirect.com
  */
 public class SDPasswordRecoveryTest {
+    //Fields for Gmail
+
+    private static final String PASSWORD = "****";
+
+    private static final By GMAIL_FIELD = By.id("Email");
+    private static final By GMAIL_NEXT_BTN = By.id("next");
+    private static final By GMAIL_PWD = By.id("Passwd");
+    private static final By SIGNIN_BTN = By.id("signIn");
+    private static final By LETTER_ID = By.xpath(".//*[@id=':3t']//*[contains(text(), 'Sports Direct')]");
+    private static final By RECOVERY_LINK = By.xpath(".//*[contains(@href, 'PasswordReset')]");
+
     private static final Logger LOGGER = Logger.getLogger(SDPasswordRecoveryTest.class.getName());
     private static final By SIGNIN= By.id("dnn_dnnLOGIN_loginLink");
     private static final By LOGIN_FIELD= By.id("dnn_ctr16744866_Login_Login_AuthenticationProvider_registerLogin_txtExistingCustomerEmailAddress");
@@ -28,15 +39,6 @@ public class SDPasswordRecoveryTest {
     private static final By CHANGE_PWD_BTN = By.id("dnn_ctr16745005_PasswordReset_lnkbtnChangePassword");
     private static final By CHANGED_CONFIRM_TEXT = By.id("dnn_ctr16745005_PasswordReset_SuccessText");
     private static final By ACCOUNT_MENU = By.id("topLinkMenu");
-
-    //Fields for Gmail
-    private static final By GMAIL_FIELD = By.id("Email");
-    private static final By GMAIL_NEXT_BTN = By.id("next");
-    private static final By GMAIL_PWD = By.id("Passwd");
-    private static final String PASSWORD = "Test1199";
-    private static final By SIGNIN_BTN = By.id("signIn");
-    private static final By LETTER_ID = By.xpath(".//*[@id=':3t']//*[contains(text(), 'Sports Direct')]");
-    private static final By RECOVERY_LINK = By.xpath(".//*[contains(@href, 'PasswordReset')]");
 
     private WebDriver driver = new ChromeDriver();
     private WebDriverWait wait = new WebDriverWait(driver, 10);
