@@ -39,6 +39,7 @@ public class SportsDirectTest {
     private static final By ITEM_PRICE = By.xpath(".//*[contains(@class, 'curprice')]");
 
     private WebDriver driver = new ChromeDriver();
+    WebDriverWait wait = new WebDriverWait(driver, 10);
 
     @Test
     public void filterCheck(){
@@ -47,21 +48,32 @@ public class SportsDirectTest {
         driver.navigate().to("http://lv.sportsdirect.com//");
         LOGGER.info("User navigated to SportsDirect website");
 
+        setAdvCookie();
+        menuClick();
+        setFilter();
+        checkFilter();
+    }
+
+    private void setAdvCookie() {
         //Set cookie to avoid advert popup
         Cookie advCookie = new Cookie("AdvertCookie", "true");
         driver.manage().addCookie(advCookie);
         LOGGER.info("Cookie to avoid advert is set");
+    }
 
+    private void menuClick() {
         driver.findElement(MENU_BTN).click();
         LOGGER.info("User clicked Menu button");
-        WebDriverWait wait = new WebDriverWait(driver, 5);
+
         wait.until(ExpectedConditions.visibilityOfElementLocated(MENS_SECTION)).click();
         LOGGER.info("User clicked Mens section menu");
-
-        //wait until Shoes menu is visible in viewport and clickable
+        //Pause used for waiting until Shoes menu is visible _in viewport_ and clickable
         safeSleep(500);
         driver.findElement(MENS_SHOES).click();
         LOGGER.info("User clicked Mens shoes menu");
+    }
+
+    private void setFilter() {
         wait.until(ExpectedConditions.visibilityOfElementLocated(FILTER)).click();
         LOGGER.info("User clicked Filter button");
         wait.until(ExpectedConditions.visibilityOfElementLocated(BRAND_FILTER)).click();
@@ -76,27 +88,22 @@ public class SportsDirectTest {
         driver.findElement(PRICE_FLTR_BTN).click();
         driver.findElement(APPLY_FLTR_BTN).click();
         LOGGER.info("User entered price range");
-
         //wait until filter has applied
         wait.until(ExpectedConditions.visibilityOfElementLocated(CONTAINER));
+    }
 
+    private void checkFilter() {
         //checking items brands and prices
         List<WebElement> items = driver.findElements(ITEM_CARD);
         for (WebElement item : items){
             String priceText = item.findElement(ITEM_PRICE).getText().replace(",", ".");
             String text = item.findElement(ITEM_TEXT).getText();
-            Assert.assertTrue("Brand filter worked incorrectly. Brand found: "+text, text.contains("Skechers") || text.contains("Firetrap"));
+            Assert.assertTrue("Brand filter worked incorrectly. Brand found: " + text, text.contains("Skechers") || text.contains("Firetrap"));
 
             Float price = Float.parseFloat(priceText.substring(0, priceText.length()-2));
             Assert.assertTrue("Price filter worked incorrectly. Price found: "+price, price>=30 && price <=60);
         }
         LOGGER.info("Brand and price filter worked correctly");
-
-    }
-
-    @After
-    public void closeDriver(){
-          driver.close();
     }
 
     //pause for waiting
@@ -109,4 +116,8 @@ public class SportsDirectTest {
         }
     }
 
+    @After
+    public void closeDriver(){
+          driver.close();
+    }
 }
