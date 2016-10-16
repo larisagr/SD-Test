@@ -39,7 +39,7 @@ public class SportsDirectTest {
     private static final By ITEM_PRICE = By.xpath(".//*[contains(@class, 'curprice')]");
 
     private WebDriver driver = new ChromeDriver();
-    WebDriverWait wait = new WebDriverWait(driver, 10);
+    private WebDriverWait wait = new WebDriverWait(driver, 10);
 
     @Test
     public void filterCheck(){
@@ -106,7 +106,6 @@ public class SportsDirectTest {
         LOGGER.info("Brand and price filter worked correctly");
     }
 
-    //pause for waiting
     private void safeSleep(int ms) {
         try {
             Thread.sleep(ms);

@@ -39,7 +39,7 @@ public class SDPasswordRecoveryTest {
     private static final By RECOVERY_LINK = By.xpath(".//*[contains(@href, 'PasswordReset')]");
 
     private WebDriver driver = new ChromeDriver();
-    WebDriverWait wait = new WebDriverWait(driver, 10);
+    private WebDriverWait wait = new WebDriverWait(driver, 10);
 
 
     @Test
@@ -86,8 +86,9 @@ public class SDPasswordRecoveryTest {
         try{
             Alert alert = driver.switchTo().alert();
             alert.accept();
+            LOGGER.info("User closed Browser Alert");
         }catch(Exception e){}
-        LOGGER.info("User closed Browser Alert");
+
     }
 
     private void setNewPwd() {
